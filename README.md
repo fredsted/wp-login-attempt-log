@@ -3,7 +3,7 @@ wp-login-attempt-log
 
 WordPress plugin that displays login attempts.
 
-To install, simply place files in `[WORDPRESS_ROOT]/wp-content/plugins/login-attempt-log`.
+To install, simply place files in `[WORDPRESS_ROOT]/wp-content/plugins/wp-login-attempt-log`.
 
 Coded by [Simon Fredsted](http://simonfredsted.com). (c) 2014
 
