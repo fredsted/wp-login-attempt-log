@@ -46,7 +46,12 @@ function lal_admin_menu()
  */
 function lal_settings_show()
 {
+	global $lal_settings;
+	lal_assets();
+
 	$counts = lal_get_log_counts();
+	
+	$chart = lal_get_chart_counts();
 	
 	if (isset($_POST['lal-do-settings']) && ($_POST['lal-do-settings'] == 'OK')) {
 		if (isset($_POST['lal-set-disableip'])) {
@@ -62,7 +67,36 @@ function lal_settings_show()
 	include "templates/lal-settings.tpl.php";
 }
 
-function lal_get_log_counts() {
+function lal_get_chart_counts()
+{
+	global $wpdb, $lal_settings;
+	
+	$table_name = "{$lal_settings['plugin_table_name']}";
+	
+	$sql = <<<SQL
+		SELECT 
+			DATE_FORMAT(time,'%m/%d') AS date, 
+			COUNT(*) AS count
+		FROM $table_name
+		WHERE time > DATE_SUB(CURDATE(), INTERVAL 14 DAY)
+		GROUP BY 
+			DATE(time)
+SQL;
+
+	$results = $wpdb->get_results($sql);
+	$return = array();
+	foreach ($results as $result) {
+		$return[] = array(
+			"y" => intval($result->count),
+			"label" => $result->date,
+		);
+	}
+	
+	return $return;
+}
+
+function lal_get_log_counts() 
+{
 	global $wpdb, $lal_settings;
 	
 	$table_name = "{$lal_settings['plugin_table_name']}";
@@ -99,7 +133,7 @@ function lal_get_log($count = 100)
 function lal_get_log_top($count, $type) {
 	global $wpdb, $lal_settings;
 	
-	$table_name = "{$lal_settings['plugin_table_name']}";
+	$table_name = $lal_settings['plugin_table_name'];
 	
 	$sql = <<<SQL
 SELECT 
@@ -108,6 +142,7 @@ SELECT
 FROM $table_name 
 GROUP BY $type 
 ORDER BY magnitude DESC
+LIMIT $count
 SQL;
 
 	return $wpdb->get_results($sql);
@@ -115,6 +150,8 @@ SQL;
 
 function lal_log_show()
 {
+	lal_assets();
+	
 	$log = lal_get_log();
 	$istop = false;
 	

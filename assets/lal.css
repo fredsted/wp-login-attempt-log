@@ -1,0 +1,96 @@
+/* Settings page */
+
+	/* Settings ministats */
+	
+	.lal-qs-box {
+		width: 25%;
+		max-width: 200px;
+		min-width: 50px;
+		float: left;
+		height: 90px;
+		text-align: center;
+		background: -webkit-linear-gradient(#2a2a2a 0%, #575757 100%);
+		color: #dadada;
+		border-radius: 5px;
+		margin-right: 5px;
+		margin-bottom: 5px
+	}
+	
+	.lal-qs-amount {
+		font-size: 25px;
+		text-shadow: 0px 0px 10px #b9b9b9;
+		font-family: "Helvetica Neue", "Helvetica", "Arial";
+		font-weight: 100; /* hnnnng */
+		padding-top: 20px;
+	}
+
+	.lal-qs-time {
+		padding-top: 15px;
+	}
+	
+	#lal-qs-total .lal-qs-amount {
+		font-weight: 200;
+	}
+	
+	#lal-quickstats {
+		clear: both;
+		height: 120px;
+	}
+	
+	@media only screen and (max-width:900px) {
+		.lal-qs-amount {
+			font-size: 25px;
+			padding-top: 15px;
+		}
+		.lal-qs-time {
+			padding-top: 10px;
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+	}
+	
+	/* Settings IP ignore */
+	
+	#lal-disableip {
+		width: 380px;
+		height: 180px;
+		margin-left: 24px;
+		margin-top: 5px;
+	}
+	#disableip-documentation {
+		margin-left: 24px;
+		color: #999;
+		font-size: 0.8em;
+	}
+	
+/* Log page */
+
+	#login-table {
+		width: 100%;
+		padding: 10px;
+		border-collapse: collapse;
+	}
+	
+	#login-table td, #login-table th {
+		padding: 6px;
+	}
+	
+	#login-table th {
+		text-align: left;
+	}
+	
+	#lal-lt-username, #lal-lt-password {
+		width: 10%;
+	}
+	#lal-lt-time {
+		width: 14%;
+	}
+	#lal-lt-ip {
+		width: 10%;
+	}
+	#lal-lt-agent {
+		width: 50%;
+	}
+	#login-table tr:nth-child(even) {
+		background: #FFF
+	}

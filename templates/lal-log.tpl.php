@@ -1,35 +1,7 @@
 <style>
-	#login-table {
-		width: 100%;
-		padding: 10px;
-		border-collapse: collapse;
-	}
-	
-	#login-table td, #login-table th {
-		padding: 6px;
-	}
-	
-	#login-table th {
-		text-align: left;
-	}
-	
-	#lal-lt-username, #lal-lt-password {
-		width: 10%;
-	}
-	#lal-lt-time {
-		width: 14%;
-	}
-	#lal-lt-ip {
-		width: 10%;
-	}
-	#lal-lt-agent {
-		width: 50%;
-	}
-	#login-table tr:nth-child(even) {
-		background: #FFF
-	}
+	@import url(<?=plugin_dir_url(__FILE__)."../assets/lal.css"?>);
 </style>
-<h2>Login Attempts Log • Data viewer</h2>
+<h2>Login Attempts Log &bull; Data viewer</h2>
 
 <form method="get">
 	<input type="hidden" name="page" value="lal_log_show" />

@@ -70,3 +70,18 @@ SQL;
 	
 	add_option("lal_db_version", $lal_settings['plugin_db_version']);
 }
+
+function lal_assets()
+{
+	$path = plugin_dir_url(__FILE__).'assets';
+	
+	echo <<<ASSETS
+	<style>
+		@import url($path/lal.css);
+	</style>
+	<script src="$path/Chart.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="$path/canvasjs.min.js"></script>
+
+ASSETS;
+// <script src="$path/jquery-1.11.1.min.js" type="text/javascript"></script>
+}
