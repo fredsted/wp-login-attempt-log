@@ -53,11 +53,11 @@
 		<?php if (isset($log[0]->magnitude)): ?>
 		<td class="lal-li-magnitude"><?=$item->magnitude?></td>
 		<?php endif; ?>
-		<td class="lal-li-username"><?=$item->username?></td>
-		<td class="lal-li-password"><?=$item->password?></td>
+		<td class="lal-li-username"><?=htmlspecialchars($item->username)?></td>
+		<td class="lal-li-password"><?=htmlspecialchars($item->password)?></td>
 		<td class="lal-li-time"><?=$item->time?></td>
 		<td class="lal-li-ip"><?=$item->ip?></td>
-		<td class="lal-li-agent" title="<?=$item->agent?>"><?=$item->agent;?></td>
+		<td class="lal-li-agent" title="<?=htmlspecialchars($item->agent)?>"><?=htmlspecialchars($item->agent);?></td>
 	</tr>
 <?php endforeach; ?>
 </table>
