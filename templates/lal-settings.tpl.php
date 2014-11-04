@@ -35,7 +35,7 @@
 		<?php else: ?>
 
 			<p>
-				<i>The graph will be shown when there's more data available.</i>
+				<i>A graph will be shown when there's more data available.</i>
 			</p>
 
 		<?php endif; ?>
