@@ -79,7 +79,6 @@ function lal_assets()
 	<style>
 		@import url($path/lal.css);
 	</style>
-	<script src="$path/Chart.min.js" type="text/javascript"></script>
 	<script type="text/javascript" src="$path/canvasjs.min.js"></script>
 
 ASSETS;
