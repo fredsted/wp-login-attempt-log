@@ -2,7 +2,7 @@
 /* 
 Plugin Name: Login Attempt Log 
 Plugin URI: http://www.simonfredsted.com/wordpress/login-attempt-log
-Version: 1.1
+Version: 1.2
 Author: Simon Fredsted
 Description: Logs login attempts to your WordPress site.
 */

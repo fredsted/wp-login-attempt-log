@@ -3,7 +3,7 @@ Contributors: fredsted
 Donate link: http://simonfredsted.com
 Tags: login, security, attempt, log
 Requires at least: 3.9
-Tested up to: 3.9.1
+Tested up to: 4.0
 Stable tag: 4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -35,6 +35,9 @@ To install, simply place files in `[WORDPRESS_ROOT]/wp-content/plugins/wp-login-
 2. The log viewer interface
 
 == Changelog ==
+
+= 1.2 =
+* WordPress 4.0 compatibility
 
 = 1.1 =
 * Bar graph layout
