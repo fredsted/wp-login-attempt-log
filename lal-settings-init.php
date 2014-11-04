@@ -114,7 +114,12 @@ SELECT
 FROM $table_name
 SQL;
 
-	return $wpdb->get_results($sql)[0];
+	$results = $wpdb->get_results($sql);
+
+	if (!isset($results[0]) || empty($results[0]->total))
+		return false;
+
+	return $results[0];
 }
 
 /*
