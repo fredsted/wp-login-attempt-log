@@ -2,9 +2,9 @@
 /* 
 Plugin Name: Login Attempt Log 
 Plugin URI: http://www.simonfredsted.com/wordpress/login-attempt-log
-Version: 1.2.1
+Version: 1.3
 Author: Simon Fredsted
-Description: Logs login attempts to your WordPress site.
+Description: WP Login Attempt Log logs failed login attempts to the WordPress admin site and helps you monitor hacking attempts to your website. Includes search, graphs and more.
 */
 
 if (!defined('ABSPATH')) die();
@@ -15,8 +15,8 @@ $lal_settings = array(
 	"plugin_name" => "Login Attempt Log",
 	"plugin_url" => "login-attempt-log",
 	"plugin_dashicon" => "dashicons-shield-alt",
-	"plugin_version" => "1.0",
-	"plugin_db_version" => "1",
+	"plugin_version" => "1.3",
+	"plugin_db_version" => "2",
 	"settings_page" => "Login Attempts",
 	"plugin_table_name" => "{$wpdb->prefix}login_attempt_log",
 );
@@ -77,11 +77,7 @@ function lal_assets()
 	$path = plugin_dir_url(__FILE__).'assets';
 	
 	echo <<<ASSETS
-	<style>
-		@import url($path/lal.css);
-	</style>
+	<style>@import url($path/lal.css);</style>
 	<script type="text/javascript" src="$path/canvasjs.min.js"></script>
-
 ASSETS;
-// <script src="$path/jquery-1.11.1.min.js" type="text/javascript"></script>
 }

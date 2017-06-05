@@ -5,7 +5,7 @@
 	if (isset($_POST['lal-do-settings-reset']) && ($_POST['lal-do-settings-reset'] == 'OK')
 	    && isset($_POST['lal-reset']) && ($_POST['lal-reset'] == 'OK')): ?>
 	    <div class="updated notice">
-    <p>✅ Login Attempt Log database was reset</p>
+    <p>&#9989; Login Attempt Log database was reset</p>
 </div>
 <?php endif; ?>
 
@@ -59,8 +59,9 @@
 	    ?>
 		<div class="lal-qs-box" id="lal-qs-total">
 			<div class="lal-qs-amount"><?=$counts->total?></div>
-			<div class="lal-qs-time">Grand total attempts</div>
+			<div class="lal-qs-time">Total Attempts</div>
 		</div>
+		<br style="clear:both;">
 		<?php if($counts->month != $counts->total): ?>
 		<div class="lal-qs-box" id="lal-qs-month">
 			<div class="lal-qs-amount"><?=$counts->month?></div>
