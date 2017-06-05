@@ -60,13 +60,8 @@ function lal_uninstall()
 	global $wpdb, $lal_settings;
 	
 	$table_name = $wpdb->prefix."login_attempt_log";
-	
-	$sql = <<<SQL
-DROP TABLE $table_name;
-SQL;
-	
-	require_once(ABSPATH.'wp-admin/includes/upgrade.php');
-	dbDelta($sql);
+		
+	$wpdb->get_results("DROP TABLE $table_name;");
 	
 	add_option("lal_db_version", $lal_settings['plugin_db_version']);
 }
