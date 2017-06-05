@@ -45,7 +45,12 @@ CREATE TABLE $table_name (
   username tinytext NOT NULL,
   password tinytext NOT NULL,
   agent tinytext NOT NULL,
-  UNIQUE KEY id (id)
+  UNIQUE KEY id (id),
+  KEY `time` (`time`),
+  KEY `password` (`password`(255)),
+  KEY `ip` (`ip`(255)),
+  KEY `username` (`username`(255)),
+  KEY `agent` (`agent`(255))
 );
 SQL;
 	
