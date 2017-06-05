@@ -1,6 +1,14 @@
 <div class="wrap">
 <h2>Login Attempts Log &bull; Settings</h2>
 
+<?php
+	if (isset($_POST['lal-do-settings-reset']) && ($_POST['lal-do-settings-reset'] == 'OK')
+	    && isset($_POST['lal-reset']) && ($_POST['lal-reset'] == 'OK')): ?>
+	    <div class="updated notice">
+    <p>✅ Login Attempt Log database was reset</p>
+</div>
+<?php endif; ?>
+
 <h3>Last 14 days</h3>
 
 
@@ -112,9 +120,15 @@
 	</label>
 	<br />
 	<textarea id="lal-disableip" name="lal-set-disableip-text"><?php echo get_option('lal-set-disableip-text'); ?></textarea>
-	<div id="disableip-documentation">
-		Tip: You can use wildcards like <tt>45.234.222.*</tt>
-	</div>
 	<?php submit_button(); ?>
+</form>
+
+<hr />
+
+<h3>Reset Login Attempt Log</h3>
+<form method="post">
+	<input type="hidden" name="lal-do-settings-reset" value="OK" />
+  <label for="reset"><input id="reset" type="checkbox" name="lal-reset" value="OK"> Yes, reset Login Attempt Log database</label>
+	<?php submit_button('Reset everything'); ?>
 </form>
 </div>

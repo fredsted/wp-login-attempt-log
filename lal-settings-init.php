@@ -63,8 +63,21 @@ function lal_settings_show()
 		if (isset($_POST['lal-set-disableip-text']))
 			update_option('lal-set-disableip-text', $_POST['lal-set-disableip-text']);
 	}
+	
+	if (isset($_POST['lal-do-settings-reset']) && ($_POST['lal-do-settings-reset'] == 'OK')
+	    && isset($_POST['lal-reset']) && ($_POST['lal-reset'] == 'OK')) 
+  {
+    lal_reset();
+  }
 
 	include "templates/lal-settings.tpl.php";
+}
+
+function lal_reset()
+{
+	global $wpdb, $lal_settings;
+	
+	$wpdb->get_results("DELETE FROM {$lal_settings['plugin_table_name']};");
 }
 
 function lal_get_chart_counts()
@@ -103,18 +116,20 @@ function lal_get_log_counts()
 	
 	$sql = <<<SQL
 SELECT 
-	COUNT(*)/count(DISTINCT DATE_FORMAT(time,'%Y')) AS average_per_year,
 	COUNT(*)/count(DISTINCT DATE_FORMAT(time,'%Y%c')) AS average_per_month,
 	COUNT(*)/count(DISTINCT DATE_FORMAT(time,'%Y%U')) AS average_per_week,
 	COUNT(*)/count(DISTINCT DATE(time)) AS average_per_day,
-	SUM(1) AS total,
 	SUM(time > DATE_SUB(CURDATE(), INTERVAL 7 DAY)) AS week,
 	SUM(time > DATE_SUB(CURDATE(), INTERVAL 30 DAY)) AS month,
-	SUM(time > DATE_SUB(CURDATE(), INTERVAL 1 DAY)) AS day
+	SUM(time > DATE_SUB(CURDATE(), INTERVAL 0 DAY)) AS day
 FROM $table_name
+WHERE `time` > DATE_SUB(CURRENT_TIMESTAMP, INTERVAL 1 year)
 SQL;
 
 	$results = $wpdb->get_results($sql);
+	
+	$sqlTotal = $wpdb->get_results("SELECT SUM(1) AS total FROM $table_name");
+	$results[0]->total = $sqlTotal[0]->total;
 
 	if (!isset($results[0]) || empty($results[0]->total))
 		return false;
@@ -135,19 +150,20 @@ function lal_get_log($count = 100)
 	return $wpdb->get_results("SELECT * FROM $table_name ORDER BY time DESC LIMIT $count");
 }
 
-function lal_get_log_top($count, $type) {
+function lal_get_log_top($count, $type, $year) {
 	global $wpdb, $lal_settings;
 	
 	$table_name = $lal_settings['plugin_table_name'];
 	
 	$sql = <<<SQL
-SELECT 
-	$type, 
-	COUNT($type) AS magnitude 
-FROM $table_name 
-GROUP BY $type 
-ORDER BY magnitude DESC
-LIMIT $count
+  SELECT 
+  	$type, 
+  	COUNT($type) AS magnitude 
+  FROM $table_name
+  WHERE YEAR(time) = '$year'
+  GROUP BY $type 
+  ORDER BY magnitude DESC
+  LIMIT $count
 SQL;
 
 	return $wpdb->get_results($sql);
@@ -155,7 +171,11 @@ SQL;
 
 function lal_log_show()
 {
+  global $wpdb, $lal_settings;
+  
 	lal_assets();
+	
+	$years = $wpdb->get_results('SELECT DISTINCT YEAR(time) AS year FROM `wp_login_attempt_log` ORDER BY year DESC');
 	
 	$log = lal_get_log();
 	$istop = false;
@@ -164,7 +184,7 @@ function lal_log_show()
 		$log = lal_get_log($_GET['topnum']);
 	}
 	else if (isset($_GET['topnum']) && isset($_GET['topwhich'])) {
-		$log = lal_get_log_top($_GET['topnum'], $_GET['topwhich']);
+		$log = lal_get_log_top($_GET['topnum'], $_GET['topwhich'], $_GET['topyear']);
 		$istop = true;
 	}
 	else {
