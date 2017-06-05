@@ -5,17 +5,52 @@
 
 <form method="get">
 	<input type="hidden" name="page" value="lal_log_show" />
-	<input type="submit" value="Show top" /> 
-	<?php $value = "100";if (isset($_GET['topnum'])) $value = $_GET['topnum']; ?>
-	<input value="<?=$value?>" name="topnum" type="number" style="width:60px" /> 
 	
-	<select name="topwhich">
-	<?php foreach (array("recent", "password", "username", "ip", "agent") as $item): ?>
-	<option value="<?=$item?>" <?php
-	if (isset($_GET['topwhich']) && $_GET['topwhich'] == $item)echo ' selected="selected"'; 
-	?>><?=ucfirst($item)?>s</option>
-	<?php endforeach; ?>
-	</select>
+	<table>
+  	 <tr>
+    	  <td>Number of results</td>
+        <td>
+          <input value="<?=(isset($_GET['value']) ? $_GET['value'] : 100)?>" 
+                 name="topnum" type="number" style="width:100px" /> 
+          
+        </td>
+  	 </tr>
+  	 <tr>
+    	  <td>Result type</td>
+        <td>
+          <select name="topwhich">
+        	  <option value="recent" <?=(isset($_GET['topwhich']) && $_GET['topwhich'] == 'recent' ? 'selected' : '')?>>
+        	    Recent attempts
+        	  </option>
+        	  <option disabled>──────────</option>  
+        	  <?php foreach (array("password", "username", "ip", "host", "agent") as $item): ?>
+              <option value="<?=$item?>" <?=(isset($_GET['topwhich']) && $_GET['topwhich'] == $item ? 'selected' : '')?>>
+                <?=ucfirst($item)?>s
+              </option>
+            <?php endforeach; ?>
+        	</select>
+        </td>
+  	 </tr>
+  	 <tr>
+    	  <td>Year</td>
+        <td>
+          <select name="topyear">
+        	  <?php foreach ($years as $item): ?>
+              <option value="<?=$item->year?>" 
+                      <?=(isset($_GET['topyear']) && $_GET['topyear'] == $item->year ? 'selected' : '')?>>
+                <?=$item->year?>
+              </option>
+            <?php endforeach; ?>
+        	</select>
+          
+        </td>
+  	 </tr>
+  	 <tr>
+    	  <td>&nbsp;</td>
+        <td><input type="submit" value="Show" class="button" /></td>
+  	 </tr>
+	</table>
+	
 </form>
 
 <?php if($istop): ?>
