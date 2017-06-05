@@ -39,19 +39,19 @@ function lal_install()
 	
 	$sql = <<<SQL
 CREATE TABLE $table_name (
-  id        mediumint(9)    NOT NULL AUTO_INCREMENT,
-  time      datetime        DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  ip        varchar(255)    NOT NULL,
-  username  varchar(255)    NOT NULL,
-  password  varchar(255)    NOT NULL,
-  agent     varchar(255)    NOT NULL,
-  `host`    varchar(255)    DEFAULT NULL,
-  UNIQUE KEY id (id),
-  KEY `time` (`time`),
-  KEY `password` (`password`(255)),
-  KEY `ip` (`ip`(255)),
-  KEY `username` (`username`(255)),
-  KEY `agent` (`agent`(255))
+  `id`        mediumint(9)    NOT NULL AUTO_INCREMENT,
+  `time`      datetime        DEFAULT '0000-00-00 00:00:00' NOT NULL,
+  `ip`        varchar(255)    NOT NULL,
+  `username`  varchar(255)    NOT NULL,
+  `password`  varchar(255)    NOT NULL,
+  `agent`     varchar(255)    NOT NULL,
+  `host`      varchar(255)    DEFAULT NULL,
+  UNIQUE KEY  `id`            (`id`),
+  KEY         `time`          (`time`),
+  KEY         `password`      (`password`(255)),
+  KEY         `ip`            (`ip`(255)),
+  KEY         `username`      (`username`(255)),
+  KEY         `agent`         (`agent`(255))
 );
 SQL;
 	
