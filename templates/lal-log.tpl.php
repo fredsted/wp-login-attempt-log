@@ -3,6 +3,26 @@
 </style>
 <h2>Login Attempts Log &bull; Data viewer</h2>
 
+<script type=text/javascript>
+  jQuery(function() {
+    if (typeof $ == 'undefined') var $ = jQuery;
+    
+    var watchChange = function () {
+      if ($("#resulttype").val() == 'recent') {
+        $(".searchactive").show();
+      } else {
+        $(".searchactive").hide();
+      }
+    };
+    
+    $("#resulttype").change(function() {
+      watchChange();
+    });
+    watchChange();
+  });
+  
+</script>
+
 <form method="get">
 	<input type="hidden" name="page" value="lal_log_show" />
 	
@@ -18,7 +38,7 @@
   	 <tr>
     	  <td>Result type</td>
         <td>
-          <select name="topwhich">
+          <select name="topwhich" id="resulttype">
         	  <option value="recent" <?=(isset($_GET['topwhich']) && $_GET['topwhich'] == 'recent' ? 'selected' : '')?>>
         	    Recent attempts
         	  </option>
@@ -30,6 +50,24 @@
             <?php endforeach; ?>
         	</select>
         </td>
+  	 </tr>
+  	 <tr class="searchactive">
+    	 <td>Search field</td>
+    	 <td>
+      	   <select name="searchfield">  
+        	  <?php foreach (array("password", "username", "ip", "host", "agent") as $item): ?>
+              <option value="<?=$item?>" <?=(isset($_GET['searchfield']) && $_GET['searchfield'] == $item ? 'selected' : '')?>>
+                <?=ucfirst($item)?>
+              </option>
+            <?php endforeach; ?>
+        	</select>
+    	 </td>
+  	 </tr>
+  	 <tr class="searchactive">
+    	  <td>Search string</td>
+    	  <td><input type="text" name="searchstring" value="<?=(isset($_GET['searchstring']) ? $_GET['searchstring'] : 100)?>" />
+      	  <small>Tip: Use <b>*</b> as wildcard</small>
+    	  </td>
   	 </tr>
   	 <tr>
     	  <td>Year</td>

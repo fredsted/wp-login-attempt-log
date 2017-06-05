@@ -141,13 +141,42 @@ SQL;
  * Log/Data Viewer actions and template rendering
  */
 
-function lal_get_log($count = 100)
+function lal_get_log($count = 100, $searchfield = null, $searchstring = null)
 {
 	global $wpdb, $lal_settings;
 	
 	$table_name = "{$lal_settings['plugin_table_name']}";
-	
-	return $wpdb->get_results("SELECT * FROM $table_name ORDER BY time DESC LIMIT $count");
+
+	if (empty($searchfield) || empty($searchstring)) {
+  	return $wpdb->get_results(
+  	  $wpdb->prepare(
+  	    "SELECT * FROM $table_name ORDER BY time DESC LIMIT %d",
+  	    $count
+  	  )
+    );
+  } else {
+    
+    if (!in_array($searchfield, ['username', 'password', 'ip', 'host', 'agent']))
+      return false;
+    
+    if (strpos($searchstring, '*') !== false) {
+      return $wpdb->get_results(
+        $wpdb->prepare(
+          "SELECT * FROM $table_name WHERE $searchfield LIKE %s ORDER BY time DESC LIMIT %d",
+          str_replace('*', '%', $searchstring),
+          $count
+        )
+      );
+    }    
+
+    return $wpdb->get_results(
+      $wpdb->prepare(
+        "SELECT * FROM $table_name WHERE $searchfield = %s ORDER BY time DESC LIMIT %d",
+        str_replace('*', '%', $searchstring),
+        $count
+      )
+    );
+  }
 }
 
 function lal_get_log_top($count, $type, $year) {
@@ -155,18 +184,21 @@ function lal_get_log_top($count, $type, $year) {
 	
 	$table_name = $lal_settings['plugin_table_name'];
 	
+	if (!in_array($type, ['username', 'password', 'ip', 'host', 'agent']))
+      return false;
+	
 	$sql = <<<SQL
   SELECT 
   	$type, 
   	COUNT($type) AS magnitude 
   FROM $table_name
-  WHERE YEAR(time) = '$year'
+  WHERE YEAR(time) = %d
   GROUP BY $type 
   ORDER BY magnitude DESC
-  LIMIT $count
+  LIMIT %d
 SQL;
 
-	return $wpdb->get_results($sql);
+	return $wpdb->get_results($wpdb->prepare($sql, $year, $count));
 }
 
 function lal_log_show()
@@ -175,13 +207,13 @@ function lal_log_show()
   
 	lal_assets();
 	
-	$years = $wpdb->get_results('SELECT DISTINCT YEAR(time) AS year FROM `wp_login_attempt_log` ORDER BY year DESC');
+	$years = $wpdb->get_results("SELECT DISTINCT YEAR(time) AS year FROM {$lal_settings['plugin_table_name']} ORDER BY year DESC");
 	
 	$log = lal_get_log();
 	$istop = false;
 	
 	if (isset($_GET['topwhich']) && ($_GET['topwhich'] == 'recent') && isset($_GET['topnum'])) {
-		$log = lal_get_log($_GET['topnum']);
+		$log = lal_get_log($_GET['topnum'], $_GET['searchfield'], $_GET['searchstring']);
 	}
 	else if (isset($_GET['topnum']) && isset($_GET['topwhich'])) {
 		$log = lal_get_log_top($_GET['topnum'], $_GET['topwhich'], $_GET['topyear']);
